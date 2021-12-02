@@ -26,7 +26,7 @@ def up_block(x,y, filters):
     x = LeakyReLU()(x)
     return x
     
-def Unet(input_size = (512, 512, 1), *, classes):
+def Unet(input_size = (256, 256, 3), *, classes):
     filter = [64,128,256,512, 1024]
     # encode
     input = Input(shape = input_size)
