@@ -6,6 +6,7 @@ class DataGenerator(Sequence):
     def __init__(self, all_filenames, input_size = (256, 256), batch_size = 32, shuffle = True, seed = 123, encode: dict = None, color_mode = 'hsv') -> None:
         super(DataGenerator, self).__init__()
         assert encode != None,  'Not empty !'
+        assert color_mode == 'hsv' or color_mode == 'rgb'
         self.all_filenames = all_filenames
         self.input_size = input_size
         self.batch_size = batch_size

@@ -28,7 +28,7 @@ def DataLoader(all_train_filename, all_mask,  all_valid_filename = None, input_s
     mask = [tf.image.resize(cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB), input_size, method = 'nearest') for img in mask_folder ]
     mask = np.array(mask)
     encode = encode_label(mask)
-    train = DataGenerator(all_train_filename, input_size, batch_size , shuffle, seed, encode)
+    train = DataGenerator(all_train_filename, input_size, batch_size , shuffle, seed, encode, color_mode)
     if all_valid_filename == None: 
         return train
     else:
