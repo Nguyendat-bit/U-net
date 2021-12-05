@@ -1,4 +1,3 @@
-from os import name
 
 from tensorflow.python.keras.losses import CategoricalCrossentropy
 import data
@@ -9,6 +8,7 @@ from tensorflow.keras.losses import SparseCategoricalCrossentropy
 from tensorflow.keras.callbacks import * 
 import sys 
 import glob2
+from metrics import m_iou
 
 if __name__ == '__main__':
     parser = ArgumentParser()
@@ -17,6 +17,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch-size',type = int, default= 8 )
     parser.add_argument('--classes', type= int, default= 2)
     parser.add_argument('--lr',type= float, default= 0.0001)
+    parser.add_argument('--dropout', type= float, default= 0.2)
     parser.add_argument('--seed', default= 2021, type= int)
     parser.add_argument('--image-size', default= 256, type= int)   
     parser.add_argument('--optimizer', default= 'rmsprop', type= str)
@@ -39,7 +40,8 @@ if __name__ == '__main__':
     print('===========================')
     for i, arg in enumerate(vars(args)):
         print('{}.{}: {}'.format(i, arg, vars(args)[arg]))
-    
+
+    assert args.color_mode == 'hsv' or args.color_mode == 'rgb', 'hsv or rgb'    
     # Load Data
     print("-------------LOADING DATA------------")
     train_img  = glob2.glob(args.all_train[0])
@@ -54,7 +56,7 @@ if __name__ == '__main__':
     train_data, valid_data = data.DataLoader(all_train_filenames, train_mask, all_valid_filenames, (args.image_size, args.image_size), args.batch_size, args.shuffle, args.seed, args.color_mode)
     inp_size = (args.image_size, args.image_size, 3)
     # Initializing models
-    unet = Unet(inp_size, classes= args.classes)
+    unet = Unet(inp_size, classes= args.classes, dropout= args.dropout)
     unet.summary()
     # Set up loss function
     loss = SparseCategoricalCrossentropy()
@@ -79,8 +81,8 @@ if __name__ == '__main__':
     else:
         checkpoint = ModelCheckpoint(args.model_save, monitor= 'val_acc', save_best_only= True, verbose= 1)
     lr_R = ReduceLROnPlateau(monitor= 'acc', patience= 3, verbose= 1, factor= 0.3, min_lr= 0.00001)
-
-    unet.compile(optimizer= optimizer, loss= loss, metrics= ['acc'])
+    Mean_IoU = m_iou(args.classes)
+    unet.compile(optimizer= optimizer, loss= loss, metrics= ['acc', Mean_IoU.mean_iou])
 
     # Training model 
     print('-------------Training Unet------------')
