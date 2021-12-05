@@ -16,13 +16,12 @@ def encode_label(mask):
     with open('label.pickle', 'wb') as handel:
         pickle.dump(encoder, handel, protocol= pickle.HIGHEST_PROTOCOL)
     return encoder
-def decode_label(predict, decode):
+def decode_label(predict, label):
     predict = tf.squeeze(predict, axis = 0)
     predict = np.argmax(predict, axis = 2) 
-    d = list(map( lambda x: decode[int(x)], predict.reshape(-1,1)))
+    d = list(map( lambda x: label[int(x)], predict.reshape(-1,1)))
     img =  np.array(d).reshape(predict.shape[0], predict.shape[1], 3)
-    b,g,r = cv2.split(img)
-    return cv2.merge((r,g,b))
+    return img
 def DataLoader(all_train_filename, all_mask,  all_valid_filename = None, input_size = (256,256), batch_size = 4, shuffle = True, seed = 123, color_mode = 'hsv') -> None:
     mask_folder = sklearn.utils.shuffle(all_mask, random_state = 47)[:8]
     mask = [tf.image.resize(cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB), input_size, method = 'nearest') for img in mask_folder ]
@@ -30,7 +29,7 @@ def DataLoader(all_train_filename, all_mask,  all_valid_filename = None, input_s
     encode = encode_label(mask)
     train = DataGenerator(all_train_filename, input_size, batch_size , shuffle, seed, encode, color_mode)
     if all_valid_filename == None: 
-        return train
+        return train, None
     else:
-        valid = DataGenerator(all_valid_filename, input_size, batch_size, shuffle, seed, encode)
+        valid = DataGenerator(all_valid_filename, input_size, batch_size, shuffle, seed, encode, color_mode)
         return train, valid
