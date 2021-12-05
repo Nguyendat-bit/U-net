@@ -26,7 +26,7 @@ def up_block(x,y, filters):
     x = LeakyReLU()(x)
     return x
     
-def Unet(input_size = (256, 256, 3), *, classes):
+def Unet(input_size = (256, 256, 3), *, classes, dropout):
     filter = [64,128,256,512, 1024]
     # encode
     input = Input(shape = input_size)
@@ -40,6 +40,7 @@ def Unet(input_size = (256, 256, 3), *, classes):
     x = up_block(x, temp3, filter[2])
     x = up_block(x, temp2, filter[1])
     x = up_block(x, temp1, filter[0])
+    x = Dropout(dropout)(x)
     output = Conv2D(classes, 1, activation= 'softmax')(x)
     model = models.Model(input, output, name = 'unet')
     model.summary()
