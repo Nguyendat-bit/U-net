@@ -9,6 +9,8 @@ from tensorflow.keras.callbacks import *
 import sys 
 import glob2
 from metrics import m_iou
+import display
+import numpy as np 
 
 if __name__ == '__main__':
     parser = ArgumentParser()
@@ -77,13 +79,21 @@ if __name__ == '__main__':
         raise 'Invalid optimizer. Valid option: adam, sgd, rmsprop, adadelta, adamax, adagrad'
     # Callback
     if valid_data == None:
-        checkpoint = ModelCheckpoint(args.model_save, monitor= 'acc', save_best_only= True, verbose= 1)
+        checkpoint = ModelCheckpoint(args.model_save, monitor= 'mean_iou', save_best_only= True, verbose= 1)
     else:
-        checkpoint = ModelCheckpoint(args.model_save, monitor= 'val_acc', save_best_only= True, verbose= 1)
+        checkpoint = ModelCheckpoint(args.model_save, monitor= 'val_mean_iou', save_best_only= True, verbose= 1)
     lr_R = ReduceLROnPlateau(monitor= 'acc', patience= 3, verbose= 1, factor= 0.3, min_lr= 0.00001)
     Mean_IoU = m_iou(args.classes)
     unet.compile(optimizer= optimizer, loss= loss, metrics= ['acc', Mean_IoU.mean_iou])
 
     # Training model 
     print('-------------Training Unet------------')
-    unet.fit(train_data, validation_data= valid_data, epochs= args.epochs, verbose = 1, callbacks= [checkpoint, lr_R])
+    history = unet.fit(train_data, validation_data= valid_data, epochs= args.epochs, verbose = 1, callbacks= [checkpoint, lr_R])
+    if valid_data == None:
+        display.show_history(history, False)
+    else:
+        display.show_history(history, True)
+
+    np.random.shuffle(all_train_filenames)
+    label = dict((j, list(i)) for i,j in train_data.encode.items())
+    display.show_example(*all_train_filenames[0], unet, label, (args.image_size, args.imgae_size), args.color_mode, Mean_IoU, train_data)

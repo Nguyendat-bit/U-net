@@ -13,8 +13,9 @@ def encode_label(mask):
         label.append(tuple(i))
     label = set(label)
     encoder = dict((j,i) for i,j in enumerate(label)) # key is tuple 
+    _label = dict((j, list(i)) for i,j in encoder.items())
     with open('label.pickle', 'wb') as handel:
-        pickle.dump(encoder, handel, protocol= pickle.HIGHEST_PROTOCOL)
+        pickle.dump(_label, handel, protocol= pickle.HIGHEST_PROTOCOL)
     return encoder
 def decode_label(predict, label):
     predict = tf.squeeze(predict, axis = 0)
