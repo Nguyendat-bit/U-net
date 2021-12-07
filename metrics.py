@@ -13,6 +13,6 @@ class m_iou():
         miou_keras = MeanIoU(num_classes= self.classes)
         miou_keras.update_state(y_true, y_pred)        
         values = np.array(miou_keras.get_weights()).reshape(self.classes, self.classes)
-        for i in np.arange(self.classes):
-            class_iou = values[i,i] / (values[i,:] + values[:,i] - values[i,i])
+        for i in  range(self.classes):
+            class_iou = values[i,i] / (sum(values[i,:]) + sum(values[:,i]) - values[i,i])
             print(f'IoU for class{str(i + 1)} is: {class_iou}')
