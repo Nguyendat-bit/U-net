@@ -46,5 +46,6 @@ def Unet(input_size = (256, 256, 3), *, classes, dropout):
     model.summary()
     return model
 if __name__ == '__main__':
-    model = Unet(classes= 2)
+    model = Unet((224,224,3), classes= 2, dropout= 0.2)
+    model.summary()
 
