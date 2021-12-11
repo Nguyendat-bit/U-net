@@ -40,5 +40,5 @@ if __name__ == '__main__':
         label = pickle.load(handel)
 
     inp_size = (args.image_size, args.image_size)
-    display.show_example(args.test_file, None, unet, label, inp_size, args.color_mode)
+    display.show_example(args.test_file, None, unet, label, inp_size, args.color_mode, None, None)
     

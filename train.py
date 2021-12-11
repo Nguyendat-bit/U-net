@@ -1,4 +1,5 @@
 
+from tensorflow.python.keras.backend import dropout
 from tensorflow.python.keras.losses import CategoricalCrossentropy
 import data
 from model import Unet
@@ -8,6 +9,7 @@ from tensorflow.keras.losses import SparseCategoricalCrossentropy
 from tensorflow.keras.callbacks import * 
 import sys 
 import glob2
+import model_mobilenetv2_unet, model_resetnet50_unet
 from metrics import m_iou
 import display
 import numpy as np 
@@ -18,6 +20,7 @@ if __name__ == '__main__':
     parser.add_argument('--all-valid', type= list, required= False,  help= "Example ['folder/valid/image/*', 'folder/valid/mask/*']")
     parser.add_argument('--batch-size',type = int, default= 8 )
     parser.add_argument('--classes', type= int, default= 2)
+    parser.add_argument('--bone', type= str,default= 'unet', help='unet, mobilenetv2_unet, resnet50_unet')
     parser.add_argument('--lr',type= float, default= 0.0001)
     parser.add_argument('--dropout', type= float, default= 0.2)
     parser.add_argument('--seed', default= 2021, type= int)
@@ -44,6 +47,7 @@ if __name__ == '__main__':
         print('{}.{}: {}'.format(i, arg, vars(args)[arg]))
 
     assert args.color_mode == 'hsv' or args.color_mode == 'rgb', 'hsv or rgb'    
+    assert args.bone == 'unet' or args.bone == 'mobilenetv2_unet' or args.bone == 'resnet50_unet'
     # Load Data
     print("-------------LOADING DATA------------")
     train_img  = glob2.glob(args.all_train[0])
@@ -58,7 +62,12 @@ if __name__ == '__main__':
     train_data, valid_data = data.DataLoader(all_train_filenames, train_mask, all_valid_filenames, (args.image_size, args.image_size), args.batch_size, args.shuffle, args.seed, args.color_mode)
     inp_size = (args.image_size, args.image_size, 3)
     # Initializing models
-    unet = Unet(inp_size, classes= args.classes, dropout= args.dropout)
+    if args.bone =='unet':
+        unet = Unet(inp_size, classes= args.classes, dropout= args.dropout)
+    elif args.bone == 'mobilenetv2_unet':
+        unet = model_mobilenetv2_unet.mobilenetv2_unet(inp_size, classes= args.classes, dropout= args.dropout)
+    elif args.bone == 'resnet50_unet':
+        unet = model_resetnet50_unet.resnet50_unet(inp_size, classes= args.classes, dropout = args.dropout)
     unet.summary()
     # Set up loss function
     loss = SparseCategoricalCrossentropy()
@@ -82,7 +91,7 @@ if __name__ == '__main__':
         checkpoint = ModelCheckpoint(args.model_save, monitor= 'mean_iou', save_best_only= True, verbose= 1)
     else:
         checkpoint = ModelCheckpoint(args.model_save, monitor= 'val_mean_iou', save_best_only= True, verbose= 1)
-    lr_R = ReduceLROnPlateau(monitor= 'acc', patience= 3, verbose= 1, factor= 0.3, min_lr= 0.00001)
+    lr_R = ReduceLROnPlateau(monitor= 'loss', patience= 3, verbose= 1, factor= 0.3, min_lr= 0.00001)
     Mean_IoU = m_iou(args.classes)
     unet.compile(optimizer= optimizer, loss= loss, metrics= ['acc', Mean_IoU.mean_iou])
 
