@@ -36,7 +36,7 @@ if __name__ == '__main__':
     unet = load_model(args.model_save)
 
     # Load label 
-    with open('laebl.pickle', 'rb') as handel:
+    with open('label.pickle', 'rb') as handel:
         label = pickle.load(handel)
 
     inp_size = (args.image_size, args.image_size)

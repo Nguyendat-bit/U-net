@@ -27,10 +27,7 @@ def encode_label_with_Kmeans(mask, classes):
     with open('kmean.pickle', 'wb') as handle:
         pickle.dump(kmean, handle, protocol= pickle.HIGHEST_PROTOCOL)
     return kmean
-
 def decode_label(predict, label):
-    predict = tf.squeeze(predict, axis = 0)
-    predict = np.argmax(predict, axis = 2) 
     d = list(map( lambda x: label[int(x)], predict.reshape(-1,1)))
     img =  np.array(d).reshape(predict.shape[0], predict.shape[1], 3)
     return img
