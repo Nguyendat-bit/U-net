@@ -16,8 +16,8 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--all-train', type= list, required= True, help= "Example ['folder/train/image/*', 'folder/train/mask/*']")
-    parser.add_argument('--all-valid', type= list, required= False,  help= "Example ['folder/valid/image/*', 'folder/valid/mask/*']")
+    parser.add_argument('--all-train', type= str, default= ['folder/train/image/*', 'folder/train/mask/*'], required= True)
+    parser.add_argument('--all-valid', type= str, default= ['folder/valid/image/*', 'folder/valid/mask/*'], required= False)
     parser.add_argument('--batch-size',type = int, default= 8 )
     parser.add_argument('--classes', type= int, default= 2)
     parser.add_argument('--bone', type= str,default= 'unet', help='unet, mobilenetv2_unet, resnet50_unet')
