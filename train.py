@@ -64,12 +64,15 @@ if __name__ == '__main__':
     train_data, valid_data = data.DataLoader(all_train_filenames, train_mask, all_valid_filenames, (args.image_size, args.image_size), args.batch_size, args.shuffle, args.seed, args.color_mode, args.function, args.use_kmean, args.classes)
     inp_size = (args.image_size, args.image_size, 3)
     # Initializing models
-    if args.bone =='unet':
-        unet = Unet(inp_size, classes= args.classes, dropout= args.dropout)
-    elif args.bone == 'mobilenetv2_unet':
-        unet = model_mobilenetv2_unet.mobilenetv2_unet(inp_size, classes= args.classes, dropout= args.dropout)
-    elif args.bone == 'resnet50_unet':
-        unet = model_resetnet50_unet.resnet50_unet(inp_size, classes= args.classes, dropout = args.dropout)
+    if args.color_mode != 'gray':
+        if args.bone =='unet':
+            unet = Unet(inp_size, classes= args.classes, dropout= args.dropout)
+        elif args.bone == 'mobilenetv2_unet':
+            unet = model_mobilenetv2_unet.mobilenetv2_unet(inp_size, classes= args.classes, dropout= args.dropout)
+        elif args.bone == 'resnet50_unet':
+            unet = model_resetnet50_unet.resnet50_unet(inp_size, classes= args.classes, dropout = args.dropout)
+    elif args.color_mode == 'gray':
+        unet = Unet((args.image_size, args.image_size, 1), classes= args.classes, dropout= args.dropout)
     unet.summary()
     # Set up loss function
     loss = SparseCategoricalCrossentropy()
