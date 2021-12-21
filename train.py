@@ -115,4 +115,4 @@ if __name__ == '__main__':
         with open('kmean.pickle', 'rb') as handel:
             kmean = pickle.load(handel)
 
-    display.show_example(*all_train_filenames[0], unet, label, (args.image_size, args.imgae_size), args.color_mode, Mean_IoU, train_data, function= args.function, kmean= kmean)
+    display.show_example(*all_train_filenames[0], unet, label, (args.image_size, args.image_size), args.color_mode, Mean_IoU, train_data, function= args.function, kmean= kmean)
