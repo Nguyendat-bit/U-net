@@ -16,8 +16,8 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--all-train', type= str, default= ['folder/train/image/*', 'folder/train/mask/*'], required= True)
-    parser.add_argument('--all-valid', type= str, default= ['folder/valid/image/*', 'folder/valid/mask/*'], required= False)
+    parser.add_argument('--all-train', action= 'append', required= True)
+    parser.add_argument('--all-valid', action= 'append', required= False)
     parser.add_argument('--batch-size',type = int, default= 8 )
     parser.add_argument('--classes', type= int, default= 2)
     parser.add_argument('--bone', type= str,default= 'unet', help='unet, mobilenetv2_unet, resnet50_unet')
@@ -95,7 +95,7 @@ if __name__ == '__main__':
         checkpoint = ModelCheckpoint(args.model_save, monitor= 'val_mean_iou', save_best_only= True, verbose= 1, mode = 'max')
     lr_R = ReduceLROnPlateau(monitor= 'loss', patience= 3, verbose= 1, factor= 0.3, min_lr= 0.00001)
     Mean_IoU = m_iou(args.classes)
-    unet.compile(optimizer= optimizer, loss= loss, metrics= ['acc', Mean_IoU.mean_iou])
+    unet.compile(optimizer= optimizer, loss= loss, metrics= ['acc', Mean_IoU.mean_iou], run_eagerly= True)
 
     # Training model 
     print('-------------Training Unet------------')
