@@ -52,12 +52,12 @@ if __name__ == '__main__':
     assert args.bone == 'unet' or args.bone == 'mobilenetv2_unet' or args.bone == 'resnet50_unet'
     # Load Data
     print("-------------LOADING DATA------------")
-    train_img  = glob2.glob(args.all_train[0])
-    train_mask = glob2.glob(args.all_train[1])
+    train_img  = sorted(glob2.glob(args.all_train[0]))
+    train_mask = sorted(glob2.glob(args.all_train[1]))
     all_train_filenames = list(zip(train_img, train_mask))
     if args.all_valid != None:
-        valid_img  = glob2.glob(args.all_valid[0])
-        valid_mask = glob2.glob(args.all_valid[1])    
+        valid_img  = sorted(glob2.glob(args.all_valid[0]))
+        valid_mask = sorted(glob2.glob(args.all_valid[1]))
         all_valid_filenames = list(zip(valid_img, valid_mask))    
     else:
         all_valid_filenames = None
