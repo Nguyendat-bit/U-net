@@ -31,7 +31,7 @@ def show_history(history, validation : bool = False):
         axes.set_ylabel('MeanIoU')
         axes.legend()
     else:
-        fig, axes = plt.subplots(1,4, figsize= (20,5))
+        fig, axes = plt.subplots(1,3, figsize= (20,5))
         # loss
         axes[0].plot(history.epoch, history.history['loss'])
         axes[0].set_title('Train')
@@ -47,13 +47,13 @@ def show_history(history, validation : bool = False):
         axes[2].set_title('Train')
         axes[2].set_xlabel('Epoch')
         axes[2].set_ylabel('MeanIoU')
+    plt.savefig('history.jpg')
     plt.show()
 
 def show_example(image, mask, model, label, inp_size, color_mode, metrics, train_data, function = None, kmean = None):
     img = cv2.cvtColor(cv2.imread(image),cv2.COLOR_BGR2RGB)
     img = tf.image.resize(img, inp_size, method ='nearest')
     pred, _pred = predict_func.predict(model, image, label, color_mode, inp_size)
-    print(pred.shape, _pred.shape)
     if mask != None:
         msk= cv2.cvtColor(cv2.imread(mask), cv2.COLOR_BGR2RGB)
         msk= tf.image.resize(msk, inp_size, method = 'nearest')
@@ -79,5 +79,6 @@ def show_example(image, mask, model, label, inp_size, color_mode, metrics, train
         axes[0].set_title('Original Image')
         axes[1].set_title('Prediction')
         axes[1].imshow(pred)
+    plt.savefig('predict.jpg')
     plt.show()
     

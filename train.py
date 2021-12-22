@@ -102,7 +102,8 @@ if __name__ == '__main__':
 
     # Training model 
     print('-------------Training Unet------------')
-    history = unet.fit(train_data, validation_data= valid_data, epochs= args.epochs, verbose = 1, callbacks= [checkpoint, lr_R])
+    history = unet.fit(train_data, validation_data= valid_data, epochs= args.epochs, verbose = 1, callbacks= [checkpoint, lr_R], )
+    print('History')
     if valid_data == None:
         display.show_history(history, False)
     else:
@@ -114,5 +115,6 @@ if __name__ == '__main__':
     if args.use_kmean:
         with open('kmean.pickle', 'rb') as handel:
             kmean = pickle.load(handel)
-
-    display.show_example(*all_train_filenames[0], unet, label, (args.image_size, args.image_size), args.color_mode, Mean_IoU, train_data, function= args.function, kmean= kmean)
+    random_choice = np.random.randint(0, len(all_train_filenames))
+    print(f'Predict with image - {all_train_filenames[random_choice][0]} and mask - {all_train_filenames[random_choice][1]} ')
+    display.show_example(*all_train_filenames[random_choice], unet, label, (args.image_size, args.image_size), args.color_mode, Mean_IoU, train_data, function= args.function, kmean= kmean)
