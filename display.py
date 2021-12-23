@@ -6,25 +6,36 @@ from data import *
 import numpy as np
 def show_history(history, validation : bool = False):
     if validation:
-        fig, axes = plt.subplots(1,3,figsize= (20,5))
         # Loss
-        axes[0].plot(history.epoch, history.history['loss'], color= 'r',  label = 'Train')
-        axes[0].plot(history.epoch, history.history['val_loss'], color = 'b', label = 'Val')
-        axes[0].set_xlabel('Epoch')
-        axes[0].set_ylabel('Loss')
-        axes[0].legend()
+        fig, axes = plt.subplots(figsize= (20,5))
+        # Train
+        axes.plot(history.epoch, history.history['loss'], color= 'r',  label = 'Train')
+        axes.plot(history.epoch, history.history['val_loss'], color = 'b', label = 'Val')
+        axes.set_xlabel('Epoch')
+        axes.set_ylabel('Loss')
+        axes.legend()
+        plt.savefig('loss.jpg')
+        plt.show()
         # Acc
-        axes[1].plot(history.epoch, history.history['acc'], color= 'r',  label = 'Train')
-        axes[1].plot(history.epoch, history.history['val_acc'], color = 'b', label = 'Val')
-        axes[1].set_xlabel('Epoch')
-        axes[1].set_ylabel('Acc')
-        axes[1].legend()
+        fig, axes = plt.subplots(figsize= (20,5))
+        # Train
+        axes.plot(history.epoch, history.history['acc'], color= 'r',  label = 'Train')
+        axes.plot(history.epoch, history.history['val_acc'], color = 'b', label = 'Val')
+        axes.set_xlabel('Epoch')
+        axes.set_ylabel('Acc')
+        axes.legend()
+        plt.savefig('acc.jpg')
+        plt.show()
         # Mean Iou
-        axes[2].plot(history.epoch, history.history['mean_iou'], color= 'r',  label = 'Train')
-        axes[2].plot(history.epoch, history.history['val_mean_iou'], color = 'b', label = 'Val')
-        axes[2].set_xlabel('Epoch')
-        axes[2].set_ylabel('MeanIoU')
-        axes[2].legend()
+        fig, axes = plt.subplots(figsize= (20,5))
+        # Train
+        axes.plot(history.epoch, history.history['mean_iou'], color= 'r',  label = 'Train')
+        axes.plot(history.epoch, history.history['val_mean_iou'], color = 'b', label = 'Val')
+        axes.set_xlabel('Epoch')
+        axes.set_ylabel('MeanIoU')
+        axes.legend()
+        plt.savefig('mean_iou.jpg')    
+        plt.show()
     else:
         fig, axes = plt.subplots(1,3, figsize= (20,5))
         # loss
@@ -42,8 +53,8 @@ def show_history(history, validation : bool = False):
         axes[2].set_title('Train')
         axes[2].set_xlabel('Epoch')
         axes[2].set_ylabel('MeanIoU')
-    plt.savefig('history.jpg')
-    plt.show()
+        plt.savefig('.jpg')
+        plt.show()
 
 def show_example(image, mask, model, label, inp_size, color_mode, metrics, train_data, function = None, kmean = None):
     img = cv2.cvtColor(cv2.imread(image),cv2.COLOR_BGR2RGB)
