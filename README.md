@@ -5,7 +5,8 @@ My project is inspired by original architecture: [U-Net: Convolutional Networks 
 |![image](img/origins.gif)|![image](img/groundtruth.gif)|![image](img/prediction.gif)|
 |:---:|:---:|:---:|
 | Origins | Groundtruth | Prediction |
-Review training on colab:
+
+<p>Review training on colab:</p>
 - Unet -->  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hb_W3pPkB8Fs_n9c4Z6zyuL_yQkNHmOH?usp=sharing)
 
 - Mobilenetv2 - Unet --> [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/12oJvjjdJIXN1YAySF1LhfFgJ3dG0uHHT?usp=sharing) 
