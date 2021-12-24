@@ -4,7 +4,7 @@ My project is inspired by original architecture: [U-Net: Convolutional Networks 
 ### <a href = 'https://www.kaggle.com/maedemaftouni/covid19-ct-scan-lesion-segmentation-dataset'>COVID-19 CT scan lesion segmentation</a>
 |![image](img/origins.gif)|![image](img/groundtruth.gif)|![image](img/prediction.gif)|
 |:---:|:---:|:---:|
-| Origins | Groundtruth | Prediction |
+| Origins | Ground truth | Prediction |
 
 <p>Review training on colab:</p>
 
