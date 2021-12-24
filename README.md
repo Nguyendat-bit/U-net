@@ -7,8 +7,8 @@ My project is inspired by original architecture: [U-Net: Convolutional Networks 
 | Origins | Groundtruth | Prediction |
 
 <p>Review training on colab:</p>
-- Unet -->  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hb_W3pPkB8Fs_n9c4Z6zyuL_yQkNHmOH?usp=sharing)
 
+- Unet -->  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hb_W3pPkB8Fs_n9c4Z6zyuL_yQkNHmOH?usp=sharing)
 - Mobilenetv2 - Unet --> [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/12oJvjjdJIXN1YAySF1LhfFgJ3dG0uHHT?usp=sharing) 
 - Resnet50 - Unet --> [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ROfmqetdu0Z4bRTRpH3dRJeH-FIFpcfT?usp=sharing)
 
