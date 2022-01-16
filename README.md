@@ -75,9 +75,10 @@ There are some important arguments for the script you should consider when runni
 
 - `all-train`: The folder of training data 
 - `all-valid`: The folder of validation data
-- `color-mode`: Where the model after training saved
+- `color-mode`: hsv or rgb or gray
 - `lr`: The learning rate
 - `image-size`: The image size of the dataset
+- `model-save`: Where the model after training saved
 
 ## Feedback
 If you meet any issues when using this library, please let us know via the issues submission tab.
