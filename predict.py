@@ -12,6 +12,7 @@ from metrics import m_iou
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--model-save',default= 'Unet.h5', type= str)
+    parser.add_argument('--classes', type= int, default= 2)
     parser.add_argument('--test-file', type= str, required= True)
     parser.add_argument('--image-size', type= int, default= 256)
     parser.add_argument('--color-mode', default= 'hsv', type= str)
